@@ -7,7 +7,7 @@ const { fetchAllArticles, articleToMarkdown, slugFor, OUTPUT_DIR } = require("./
  
 const STORE_DISPLAY_NAME = "OptiBot Support Docs";
 const CONCURRENCY = 3;
-const MAX_RETRIES = 3;
+const MAX_RETRIES = 1;
  
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -39,7 +39,7 @@ async function loadStateFromStore(storeName) {
 }
  
 async function deleteDoc(docName) {
-  await ai.fileSearchStores.documents.delete({ name: docName });
+  await ai.fileSearchStores.documents.delete({ name: docName, config: { force: true } });
 }
  
 async function uploadDoc(storeName, filePath, displayName, hash) {
@@ -92,7 +92,8 @@ async function main() {
     const md = articleToMarkdown(art);
     fs.writeFileSync(filePath, md, "utf-8");
     return { fileName, filePath, hash: hashContent(md) };
-  });
+  }).filter((s) => s.fileName !== "how-to-use-the-qr-scan-to-interact-touchless-qr-app.md");
+  
   console.log(`   Scraped ${scraped.length} articles.`);
  
  

@@ -97,7 +97,6 @@ async function main() {
   console.log(`File Search Store : ${store.name}`);
   console.log(`Files embedded    : ${done} (failed: ${failed})`);
   console.log(`Chunks (estimated): ~${estChunks}`);
-  console.log("\n>> Store name saved to .store file. Now run:  node ask.js");
 }
 
 main().catch((err) => {
