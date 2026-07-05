@@ -9,13 +9,13 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Lấy code về
+      - name: Pull repository
         uses: actions/checkout@v4
  
       - name: Build Docker image
         run: docker build -t optibot-job .
  
-      - name: Chạy job (một lần rồi thoát)
+      - name: Run Job
         run: >
           docker run --rm
           -e GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
